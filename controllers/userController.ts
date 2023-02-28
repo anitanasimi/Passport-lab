@@ -1,0 +1,39 @@
+import { User } from "../interfaces/User";
+import { database, userModel } from "../models/userModel";
+const getUserByEmailIdAndPassword = (email: String, password:string) => {
+  let user = userModel.findOne(email);
+  if (user) {
+    if (isUserValid(user, password)) {
+      return user;
+    }
+  }
+  return null;
+};
+const getUserById = (id:number) => {
+  let user = userModel.findById(id);
+  if (user) {
+    return user;
+  }
+  return null;
+};
+
+function isUserValid(user:User, password:strig) {
+ if (user.password === password) {
+		return true;
+} else {
+  throw new Error("Password is incorrect");
+}
+
+const addGitHubUser = (displayName: string) => {
+	const user = userModel.addUser({
+		id: database.length + 1,
+		name: displayName,
+		role: "user",
+	});
+	return user;
+};
+
+
+export  {
+  getUserByEmailIdAndPassword, getUserById, addGitHubUser
+};
